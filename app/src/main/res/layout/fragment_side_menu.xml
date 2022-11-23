@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2021 The Android Open Source Project.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,19 +13,22 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_side_menu"
     tools:context=".ui.order.SideMenuFragment">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.example.lunchtray.model.OrderViewModel" />
 
         <!-- TODO: Add the data binding variable for the SideMenuFragment -->
+        <variable
+            name="sideMenuFragment"
+            type="com.example.lunchtray.ui.order.SideMenuFragment" />
     </data>
 
     <ScrollView
@@ -53,8 +55,9 @@
                     android:id="@+id/salad"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:onClick='@{() -> viewModel.setSide("salad")}'
                     android:text='@{viewModel.menuItems["salad"].name}'
+                    android:textAppearance="?attr/textAppearanceBody1"
                     tools:text="Side 1" />
 
                 <TextView
@@ -83,8 +86,9 @@
                     android:id="@+id/soup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:onClick='@{() -> viewModel.setSide("soup")}'
                     android:text='@{viewModel.menuItems["soup"].name}'
+                    android:textAppearance="?attr/textAppearanceBody1"
                     tools:text="Side 2" />
 
                 <TextView
@@ -114,8 +118,9 @@
                     android:id="@+id/potatoes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:onClick='@{() -> viewModel.setSide("potatoes")}'
                     android:text='@{viewModel.menuItems["potatoes"].name}'
+                    android:textAppearance="?attr/textAppearanceBody1"
                     tools:text="Side 3" />
 
                 <TextView
@@ -144,8 +149,9 @@
                     android:id="@+id/rice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:onClick='@{() -> viewModel.setSide("rice")}'
                     android:text='@{viewModel.menuItems["rice"].name}'
+                    android:textAppearance="?attr/textAppearanceBody1"
                     tools:text="Side 4" />
 
                 <TextView
@@ -177,14 +183,16 @@
             <TextView
                 android:id="@+id/subtotal"
                 style="@style/Widget.LunchTray.TextView.Subtotal"
+                android:text="@{@string/subtotal(viewModel.subtotal)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/divider"
-                tools:text="Subtotal $5.00"/>
+                tools:text="Subtotal $5.00" />
 
             <!-- TODO: cancel the order when clicked -->
             <Button
                 android:id="@+id/cancel_button"
                 style="@style/Widget.Order.Button.Cancel"
+                android:onClick="@{() -> sideMenuFragment.cancelOrder()}"
                 app:layout_constraintEnd_toStartOf="@id/next_button"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/next_button" />
@@ -193,6 +201,7 @@
             <Button
                 android:id="@+id/next_button"
                 style="@style/Widget.Order.Button.Next"
+                android:onClick="@{() -> sideMenuFragment.goToNextScreen()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/cancel_button"
